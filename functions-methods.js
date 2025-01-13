@@ -86,11 +86,17 @@ console.log(typeOfEmail("a.wiersma@outlook.com"));
 
 function checkEmailValidity(emailAdres){
     if (emailAdres.indexOf('@') == -1) return false; //email address should contain an @
+    if (emailAdres.indexOf(',') != -1) return false; //email  address should not contain an ,
+    if (emailAdres[emailAdres.length-1] == ".") return false; //email address should not have a . as last character
+    //the line above could also be done using charAt() but [index] is faster (and easier to read imho)
+    //if (emailAdres.charAt(emailAdres.length-1) == ".") return false; //email address should not have a . as last character
     //email address should not contain more than 1 @
-    if emailAdres.indexOf(',') != -1) return false; //email  address should not contain an ,
-    if (emailAdres.indexOf('.') == -1) return false; //
     //email address should contain a . after @
-    //email address should not have a . s last character
-    return true; //otherwise the email address is balid
+    return true; //otherwise the email address is valid
 }
 
+console.log(checkEmailValidity("n.eeken@novi.nl"));
+console.log(checkEmailValidity("tessmellink@novi.nl"));
+console.log(checkEmailValidity("n.eekenanovi.nl"));
+console.log(checkEmailValidity("n.eeken@novinl."));
+console.log(checkEmailValidity("tessmellink@novi,nl"));
