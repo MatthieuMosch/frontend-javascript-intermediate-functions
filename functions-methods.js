@@ -9,7 +9,21 @@
 // getEmailDomain("t.mellink@novi.nl") geeft novi.nl
 // getEmailDomain("a.wiersma@outlook.com") geeft outlook.com
 
+function getEmailDomain(emailAdres){
+    const posAt = emailAdres.indexOf('@');
+    //default output (error value)
+    let returnString = "No @ in input. Domain cannot be found."; //error message in english
+    if (posAt != -1) {
+        // @ found, take part after @ as domain
+        returnString =  emailAdres.substring(posAt+1);
+    }
+    return returnString;
+}
 
+console.log(getEmailDomain("n.eeken@novi-education.nl"));
+console.log(getEmailDomain("t.mellink@novi.nl"));
+console.log(getEmailDomain("a.wiersma@outlook.com"));
+//console.log(getEmailDomain("n.eeken_at_novi-education.nl")); //checking error
 
 
 /* Opdracht  2 */
@@ -20,7 +34,42 @@
 // typeOfEmail("novi.nlaapjesk@outlook.com") geeft geeft "Extern" <-- deze moet het ook doen!
 // typeOfEmail("a.wiersma@outlook.com") geeft "Extern"
 
+function typeOfEmail(emailAdres){
+    const startDomain = emailAdres.indexOf('@') + 1;
+    const endDomain = emailAdres.lastIndexOf('.');
+    //default output (error value)
+    let returnString = "Incorrect adres. Geen domein gevonden."; //message in dutch as the other return values are in dutch as well
+    //updating output in case of correct input
+    if ((startDomain != 0) && (endDomain != -1) && (endDomain > startDomain)) {
+        const domain =  emailAdres.substring(startDomain,endDomain);
+        switch (domain.toLowerCase()) {
+            case "novi":
+                returnString =  "Medewerker";
+                break;
+            case "novi-education":
+                returnString =  "Student";
+                break;
+            case "outlook": //the outlook domain is also extern like the default domain, so falling through to default here
+                // returnString =  "Outlook";
+                // break;
+            case "gmail": //the gmail domain is also extern like the default domain, so falling through to default here
+                // returnString =  "Gmail";
+                // break;
+            default:
+                returnString =  "Extern"; //all other addresses are extern (including gmail.com and outlook.com
+                break;
+        }
+    }
+    return returnString;
+}
 
+console.log(typeOfEmail("n.eeken@novi-education.nl"));
+console.log(typeOfEmail("t.mellink@novi.nl"));
+console.log(typeOfEmail("novi.nlaapjesk@outlook.com"));
+console.log(typeOfEmail("a.wiersma@outlook.com"));
+// console.log(typeOfEmail("a.wiersma@outlookcom")); //checking error
+// console.log(typeOfEmail("a.wiersmaoutlook.com")); //checking error
+// console.log(typeOfEmail("a.wiersmaoutlookcom")); //checking error
 
 /* Opdracht  3 */
 // Schrijf een functie genaamd checkEmailValidity, die een emailadres verwacht en checkt of het emailadres valide is. De functie returned true of false, afhankelijk van de uitkomst.
@@ -34,3 +83,26 @@
 // checkEmailValidity("n.eekenanovi.nl") geeft false - want geen @
 // checkEmailValidity("n.eeken@novinl.") geeft false - want de punt mag niet als laatst
 // checkEmailValidity("tessmellink@novi,nl") geeft false - want er staat een komma in
+
+function checkEmailValidity(emailAddress){
+    if (emailAddress.indexOf('@') == -1) return false; //email address should contain an @
+    if (emailAddress.indexOf(',') != -1) return false; //email  address should not contain a ,
+    if (emailAddress[emailAddress.length-1] == ".") return false; //email address should not have a . as last character
+    // the line above could also be done using charAt() but [index] is shorter and faster (and easier to read imho)
+    // if (emailAddress.charAt(emailAddress.length-1) == ".") return false; //email address should not have a . as last character
+/*
+    // extra checks
+    if (emailAddress.indexOf("@") > emailAddress.lastIndexOf("."))  return false;//email address should contain a . after @
+    if ((emailAddress.length - emailAddress.replaceAll("@","").length) != 1 ) return false;//email address should contain exactly 1 @ this could replace the first line
+*/
+    return true; //if the email address passes through all the checks above then the email address is valid
+}
+
+console.log(checkEmailValidity("n.eeken@novi.nl"));
+console.log(checkEmailValidity("tessmellink@novi.nl"));
+console.log(checkEmailValidity("n.eekenanovi.nl"));
+console.log(checkEmailValidity("n.eeken@novinl."));
+console.log(checkEmailValidity("tessmellink@novi,nl"));
+// console.log(checkEmailValidity("tessmellinknovi.n@l")); //checking extra error
+// console.log(checkEmailValidity("tessmellink@novi.n@l")); //checking extra error
+
