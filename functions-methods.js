@@ -84,15 +84,18 @@ console.log(typeOfEmail("a.wiersma@outlook.com"));
 // checkEmailValidity("n.eeken@novinl.") geeft false - want de punt mag niet als laatst
 // checkEmailValidity("tessmellink@novi,nl") geeft false - want er staat een komma in
 
-function checkEmailValidity(emailAdres){
-    if (emailAdres.indexOf('@') == -1) return false; //email address should contain an @
-    if (emailAdres.indexOf(',') != -1) return false; //email  address should not contain an ,
-    if (emailAdres[emailAdres.length-1] == ".") return false; //email address should not have a . as last character
-    //the line above could also be done using charAt() but [index] is faster (and easier to read imho)
-    //if (emailAdres.charAt(emailAdres.length-1) == ".") return false; //email address should not have a . as last character
-    //email address should not contain more than 1 @
-    //email address should contain a . after @
-    return true; //otherwise the email address is valid
+function checkEmailValidity(emailAddress){
+    if (emailAddress.indexOf('@') == -1) return false; //email address should contain an @
+    if (emailAddress.indexOf(',') != -1) return false; //email  address should not contain a ,
+    if (emailAddress[emailAddress.length-1] == ".") return false; //email address should not have a . as last character
+    // the line above could also be done using charAt() but [index] is shorter and faster (and easier to read imho)
+    // if (emailAddress.charAt(emailAddress.length-1) == ".") return false; //email address should not have a . as last character
+/*
+    // extra checks
+    if (emailAddress.indexOf("@") > emailAddress.lastIndexOf("."))  return false;//email address should contain a . after @
+    if ((emailAddress.length - emailAddress.replaceAll("@","").length) != 1 ) return false;//email address should contain exactly 1 @ this could replace the first line
+*/
+    return true; //if the email address passes through all the checks above then the email address is valid
 }
 
 console.log(checkEmailValidity("n.eeken@novi.nl"));
@@ -100,3 +103,6 @@ console.log(checkEmailValidity("tessmellink@novi.nl"));
 console.log(checkEmailValidity("n.eekenanovi.nl"));
 console.log(checkEmailValidity("n.eeken@novinl."));
 console.log(checkEmailValidity("tessmellink@novi,nl"));
+// console.log(checkEmailValidity("tessmellinknovi.n@l")); //checking extra error
+// console.log(checkEmailValidity("tessmellink@novi.n@l")); //checking extra error
+
